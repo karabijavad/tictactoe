@@ -7,6 +7,10 @@ class Player
     @symbol
 
 class BoardElement
+  setDOMel: (el) ->
+    @el = el
+  getDOMel: () ->
+    @el
   setOwner: (owner) ->
     @owner = owner
   getOwner: () ->
