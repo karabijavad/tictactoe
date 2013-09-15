@@ -7,6 +7,12 @@ class Player
     @symbol
 
 class BoardElement
+  constructor: (game) ->
+    @setGame(game)
+  setGame: (game) ->
+    @game = game
+  getGame: () ->
+    game
   setDOMel: (el) ->
     @el = $(el)
   getDOMel: () ->
@@ -17,11 +23,17 @@ class BoardElement
     @owner
 
 class Board
+  constructor: (game) ->
+    @setGame(game)
+  setGame: (game) ->
+    @game = game
+  getGame: () ->
+    game
   getGrid: () ->
     @grid
-  grid: [[new BoardElement, new BoardElement, new BoardElement],
-        [new BoardElement, new BoardElement, new BoardElement],
-        [new BoardElement, new BoardElement, new BoardElement]]
+  grid: [[new BoardElement(@game), new BoardElement(@game), new BoardElement(@game)],
+        [new BoardElement(@game), new BoardElement(@game), new BoardElement(@game)],
+        [new BoardElement(@game), new BoardElement(@game), new BoardElement(@game)]]
 
 class TicTacToe
   constructor: (playerA, playerB) ->
@@ -32,6 +44,6 @@ class TicTacToe
       for el_num, el of row
         el.setDOMel("[data-row=#{row_num}] [data-col=#{el_num}]")
   players: new Array(2)
-  board: new Board
+  board: new Board(this)
 
 @game = new TicTacToe(new Player("x"), new Player("o"))
