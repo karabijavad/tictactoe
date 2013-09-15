@@ -1,4 +1,12 @@
-class Player
+class GameComponent
+  constructor: (game) ->
+    @setGame(game)
+  setGame: (game) ->
+    @game = game
+  getGame: () ->
+    game
+
+class Player extends GameComponent
   constructor: (symbol) ->
     @setSymbol(symbol)
   setSymbol: (symbol) ->
@@ -6,13 +14,7 @@ class Player
   getSymbol: () ->
     @symbol
 
-class BoardElement
-  constructor: (game) ->
-    @setGame(game)
-  setGame: (game) ->
-    @game = game
-  getGame: () ->
-    game
+class BoardElement extends GameComponent
   setDOMel: (el) ->
     @el = $(el)
     @el.click =>
@@ -28,13 +30,7 @@ class BoardElement
     @setOwner(@getGame().getCurrentPlayer())
     @getGame().schedule()
 
-class Board
-  constructor: (game) ->
-    @setGame(game)
-  setGame: (game) ->
-    @game = game
-  getGame: () ->
-    game
+class Board extends GameComponent
   getGrid: () ->
     @grid
   grid: [[new BoardElement(@game), new BoardElement(@game), new BoardElement(@game)],
