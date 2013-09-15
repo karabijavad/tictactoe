@@ -21,6 +21,10 @@ class AIStrategy extends StrategyInterface
     #B) trigger a jQuery click on it
     super
 
+class RandomAIStrategy extends StrategyInterface
+  begin: () ->
+    super
+
 class Player
   constructor: (symbol, strategy) ->
     @setSymbol(symbol)
