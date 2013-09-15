@@ -17,6 +17,8 @@ class BoardElement
     @owner
 
 class Board
+  getGrid: () ->
+    grid
   grid: [[new BoardElement, new BoardElement, new BoardElement],
         [new BoardElement, new BoardElement, new BoardElement],
         [new BoardElement, new BoardElement, new BoardElement]]
