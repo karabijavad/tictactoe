@@ -6,13 +6,31 @@ class GameComponent
   getGame: () ->
     game
 
-class Player extends GameComponent
-  constructor: (symbol) ->
+class StrategyInterface extends GameComponent
+  begin: () ->
+
+class HumanStrategy extends StrategyInterface
+  begin: () ->
+    super
+
+class AIStrategy extends StrategyInterface
+  begin: () ->
+    super
+
+class Player
+  constructor: (symbol, strategy) ->
     @setSymbol(symbol)
+    @setStrategy(strategy)
   setSymbol: (symbol) ->
     @symbol = symbol
   getSymbol: () ->
     @symbol
+  setStrategy: (strategy) ->
+    @strategy = strategy
+  getStrategy: () ->
+    @strategy
+  go: () ->
+    @getStrategy().begin()
 
 class BoardElement extends GameComponent
   setDOMel: (el) ->
@@ -57,5 +75,6 @@ class TicTacToe
       @setCurrentPlayer(@players[1])
     else
       @setCurrentPlayer(@players[0])
+    @getCurrentPlayer().go()
 
-@game = new TicTacToe(new Player("x"), new Player("o"))
+@game = new TicTacToe(new Player("x", new HumanStrategy(@game)), new Player("o", new AIStrategy(@game)))
