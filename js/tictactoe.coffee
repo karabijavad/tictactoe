@@ -11,10 +11,14 @@ class StrategyInterface extends GameComponent
 
 class HumanStrategy extends StrategyInterface
   begin: () ->
+    #leave empty, as human will actually click via the mouse
     super
 
 class AIStrategy extends StrategyInterface
   begin: () ->
+    #ai strategy will need to
+    #A) pick an element
+    #B) trigger a jQuery click on it
     super
 
 class Player
