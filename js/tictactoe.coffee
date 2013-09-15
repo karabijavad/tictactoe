@@ -8,7 +8,7 @@ class Player
 
 class BoardElement
   setDOMel: (el) ->
-    @el = el
+    @el = $(el)
   getDOMel: () ->
     @el
   setOwner: (owner) ->
@@ -18,7 +18,7 @@ class BoardElement
 
 class Board
   getGrid: () ->
-    grid
+    @grid
   grid: [[new BoardElement, new BoardElement, new BoardElement],
         [new BoardElement, new BoardElement, new BoardElement],
         [new BoardElement, new BoardElement, new BoardElement]]
@@ -27,6 +27,10 @@ class TicTacToe
   constructor: (playerA, playerB) ->
     @players[0] = playerA
     @players[1] = playerB
+    #TODO: strategize this out
+    for row_num, row of @board.getGrid()
+      for el_num, el of row
+        el.setDOMel("[data-row=#{row_num}] [data-col=#{el_num}]")
   players: new Array(2)
   board: new Board
 
