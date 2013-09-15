@@ -26,6 +26,7 @@ class BoardElement
   handle_element_clicked: () ->
     return false if @getOwner()
     @setOwner(@getGame().getCurrentPlayer())
+    @getGame().schedule()
 
 class Board
   constructor: (game) ->
@@ -55,5 +56,10 @@ class TicTacToe
     @current_player
   setCurrentPlayer: (player) ->
     @current_player = player
+  schedule: () ->
+    if @getCurrentPlayer() == @players[0]
+      @setCurrentPlayer(@players[1])
+    else
+      @setCurrentPlayer(@players[0])
 
 @game = new TicTacToe(new Player("x"), new Player("o"))
