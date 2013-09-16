@@ -21,10 +21,23 @@ class AIStrategy extends StrategyInterface
     #B) trigger a jQuery click on it
     super
 
-class Player
+class RandomAIStrategy extends StrategyInterface
+  begin: () ->
+    possibilities = []
+    for row in @getGame().board.getGrid()
+      for el in row
+        if not el.getOwner()
+          possibilities.push el
+    console.log(possibilities)
+    possibilities[Math.floor(Math.random() * possibilities.length)].getDOMel().trigger('click')
+    super
+
+class Player extends GameComponent
   constructor: (symbol, strategy) ->
     @setSymbol(symbol)
+    strategy.setGame(@getGame)
     @setStrategy(strategy)
+    super @getGame
   setSymbol: (symbol) ->
     @symbol = symbol
   getSymbol: () ->
@@ -48,8 +61,11 @@ class BoardElement extends GameComponent
   getOwner: () ->
     @owner
   handle_element_clicked: () ->
-    return false if @getOwner()
+    if @getOwner()
+      console.log("Already owned by #{@getOwner().getSymbol()}")
+      return false
     @setOwner(@getGame().getCurrentPlayer())
+    @getDOMel().attr("data-owner", @getGame().getCurrentPlayer().getSymbol())
     @getGame().schedule()
 
 class Board extends GameComponent
@@ -61,6 +77,8 @@ class Board extends GameComponent
 
 class TicTacToe
   constructor: (playerA, playerB) ->
+    playerA.setGame(this)
+    playerB.setGame(this)
     @players[0] = playerA
     @players[1] = playerB
     @setCurrentPlayer(@players[0])
@@ -81,4 +99,4 @@ class TicTacToe
       @setCurrentPlayer(@players[0])
     @getCurrentPlayer().go()
 
-@game = new TicTacToe(new Player("x", new HumanStrategy(@game)), new Player("o", new AIStrategy(@game)))
+@game = new TicTacToe(new Player("x", new HumanStrategy()), new Player("o", new RandomAIStrategy()))
