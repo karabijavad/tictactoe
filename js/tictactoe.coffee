@@ -76,13 +76,13 @@ class Board extends GameComponent
         [new BoardElement(@game), new BoardElement(@game), new BoardElement(@game)],
         [new BoardElement(@game), new BoardElement(@game), new BoardElement(@game)]]
   check_for_win: () ->
-    if (@getGrid()[0][0].getOwner() == @getGrid()[1][0].getOwner() == @getGrid()[2][0].getOwner())
-      return @getGrid()[0][0].getOwner()
-    if (@getGrid()[0][1].getOwner() == @getGrid()[1][1].getOwner() == @getGrid()[2][1].getOwner())
-      return @getGrid()[0][1].getOwner()
-    if (@getGrid()[0][2].getOwner() == @getGrid()[1][2].getOwner() == @getGrid()[2][2].getOwner())
-      return @getGrid()[0][2].getOwner()
-    for row in @getGrid()
+    if (@grid[0][0].getOwner() == @grid[1][0].getOwner() == @grid[2][0].getOwner())
+      return @grid[0][0].getOwner()
+    if (@grid[0][1].getOwner() == @grid[1][1].getOwner() == @grid[2][1].getOwner())
+      return @grid[0][1].getOwner()
+    if (@grid[0][2].getOwner() == @grid[1][2].getOwner() == @grid[2][2].getOwner())
+      return @grid[0][2].getOwner()
+    for row in @grid
       if row[0].getOwner() == row[1].getOwner() == row[2].getOwner()
         return row[0].getOwner()
 
