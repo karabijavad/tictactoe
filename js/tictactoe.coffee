@@ -16,9 +16,39 @@ class HumanStrategy extends StrategyInterface
 
 class AIStrategy extends StrategyInterface
   begin: () ->
-    #ai strategy will need to
-    #A) pick an element
-    #B) trigger a jQuery click on it
+    console.log("-----\nbeginning AIStrategy")
+    console.log("Current Player:")
+    console.log(@getGame().getCurrentPlayer())
+    @decision = null
+    for row_num, row of @getGame().board.getGrid()
+      console.log("scanning row " + row_num)
+      console.log("Element 0: ")
+      console.log(row[0].getOwner())
+      console.log("Element 1: ")
+      console.log(row[1].getOwner())
+      console.log("Element 2: ")
+      console.log(row[2].getOwner())
+      if (row[0].getOwner() == row[1].getOwner() == @getGame().getCurrentPlayer())
+        if (row[2].getOwner() == undefined)
+          @decision = row[2]
+          console.log("Matched strat 1")
+      if (row[0].getOwner() == row[2].getOwner() == @getGame().getCurrentPlayer())
+        if (row[1].getOwner() == undefined)
+          @decision = row[1]
+          console.log("Matched strat 2")
+      if (row[1].getOwner() == row[2].getOwner() == @getGame().getCurrentPlayer())
+        if (row[0].getOwner() == undefined)
+          @decision = row[0]
+          console.log("Matched strat 3")
+    if not @decision
+      console.log("no decision made, going with random fall back")
+      possibilities = []
+      for row in @getGame().board.getGrid()
+        for el in row
+          if not el.getOwner()
+            possibilities.push el
+      @decision = possibilities[Math.floor(Math.random() * possibilities.length)]
+    @decision.getDOMel().trigger('click')
     super
 
 class RandomAIStrategy extends StrategyInterface
@@ -28,7 +58,6 @@ class RandomAIStrategy extends StrategyInterface
       for el in row
         if not el.getOwner()
           possibilities.push el
-    console.log(possibilities)
     possibilities[Math.floor(Math.random() * possibilities.length)].getDOMel().trigger('click')
     super
 
@@ -119,4 +148,4 @@ class TicTacToe
       @setCurrentPlayer(@players[0])
     @getCurrentPlayer().go()
 
-@game = new TicTacToe(new Player("x", new HumanStrategy()), new Player("o", new RandomAIStrategy()))
+@game = new TicTacToe(new Player("x", new HumanStrategy()), new Player("o", new AIStrategy()))
