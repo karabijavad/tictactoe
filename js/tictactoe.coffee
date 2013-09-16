@@ -85,4 +85,4 @@ class TicTacToe
       @setCurrentPlayer(@players[0])
     @getCurrentPlayer().go()
 
-@game = new TicTacToe(new Player("x", new HumanStrategy(@game)), new Player("o", new AIStrategy(@game)))
+@game = new TicTacToe(new Player("x", new HumanStrategy(@game)), new Player("o", new RandomAIStrategy(@game)))
