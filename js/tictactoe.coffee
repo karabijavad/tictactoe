@@ -23,6 +23,13 @@ class AIStrategy extends StrategyInterface
 
 class RandomAIStrategy extends StrategyInterface
   begin: () ->
+    possibilities = []
+    for row in @getGame().board.getGrid()
+      for el in row
+        if not el.getOwner()
+          possibilities.push el
+    console.log(possibilities)
+    possibilities[Math.floor(Math.random() * possibilities.length)].getDOMel().trigger('click')
     super
 
 class Player extends GameComponent
@@ -54,8 +61,11 @@ class BoardElement extends GameComponent
   getOwner: () ->
     @owner
   handle_element_clicked: () ->
-    return false if @getOwner()
+    if @getOwner()
+      console.log("Already owned by #{@getOwner().getSymbol()}")
+      return false
     @setOwner(@getGame().getCurrentPlayer())
+    @getDOMel().attr("data-owner", @getGame().getCurrentPlayer().getSymbol())
     @getGame().schedule()
 
 class Board extends GameComponent
