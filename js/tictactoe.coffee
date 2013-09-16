@@ -65,7 +65,7 @@ class BoardElement extends GameComponent
       console.log("Already owned by #{@getOwner().getSymbol()}")
       return false
     @setOwner(@getGame().getCurrentPlayer())
-    @getDOMel().attr("data-owner", @getGame().getCurrentPlayer().getSymbol())
+    @getDOMel().html(@getGame().getCurrentPlayer().getSymbol())
     @getGame().schedule()
 
 class Board extends GameComponent
