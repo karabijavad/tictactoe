@@ -25,10 +25,12 @@ class RandomAIStrategy extends StrategyInterface
   begin: () ->
     super
 
-class Player
+class Player extends GameComponent
   constructor: (symbol, strategy) ->
     @setSymbol(symbol)
+    strategy.setGame(@getGame)
     @setStrategy(strategy)
+    super @getGame
   setSymbol: (symbol) ->
     @symbol = symbol
   getSymbol: () ->
@@ -65,6 +67,8 @@ class Board extends GameComponent
 
 class TicTacToe
   constructor: (playerA, playerB) ->
+    playerA.setGame(this)
+    playerB.setGame(this)
     @players[0] = playerA
     @players[1] = playerB
     @setCurrentPlayer(@players[0])
@@ -85,4 +89,4 @@ class TicTacToe
       @setCurrentPlayer(@players[0])
     @getCurrentPlayer().go()
 
-@game = new TicTacToe(new Player("x", new HumanStrategy(@game)), new Player("o", new RandomAIStrategy(@game)))
+@game = new TicTacToe(new Player("x", new HumanStrategy()), new Player("o", new RandomAIStrategy()))
