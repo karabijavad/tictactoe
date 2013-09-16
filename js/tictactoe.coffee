@@ -61,6 +61,7 @@ class BoardElement extends GameComponent
   getOwner: () ->
     @owner
   handle_element_clicked: () ->
+    return false if not @getGame().active
     if @getOwner()
       console.log("Already owned by #{@getOwner().getSymbol()}")
       return false
@@ -74,9 +75,24 @@ class Board extends GameComponent
   grid: [[new BoardElement(@game), new BoardElement(@game), new BoardElement(@game)],
         [new BoardElement(@game), new BoardElement(@game), new BoardElement(@game)],
         [new BoardElement(@game), new BoardElement(@game), new BoardElement(@game)]]
+  check_for_win: () ->
+    if (@grid[0][0].getOwner() == @grid[1][0].getOwner() == @grid[2][0].getOwner())
+      return @grid[0][0].getOwner()
+    if (@grid[0][1].getOwner() == @grid[1][1].getOwner() == @grid[2][1].getOwner())
+      return @grid[0][1].getOwner()
+    if (@grid[0][2].getOwner() == @grid[1][2].getOwner() == @grid[2][2].getOwner())
+      return @grid[0][2].getOwner()
+    if (@grid[0][0].getOwner() == @grid[1][1].getOwner() == @grid[2][2].getOwner())
+      return @grid[0][0].getOwner()
+    if (@grid[0][2].getOwner() == @grid[1][1].getOwner() == @grid[2][0].getOwner())
+      return @grid[0][2].getOwner()
+    for row in @grid
+      if row[0].getOwner() == row[1].getOwner() == row[2].getOwner()
+        return row[0].getOwner()
 
 class TicTacToe
   constructor: (playerA, playerB) ->
+    @active = true
     playerA.setGame(this)
     playerB.setGame(this)
     @players[0] = playerA
@@ -93,6 +109,10 @@ class TicTacToe
   setCurrentPlayer: (player) ->
     @current_player = player
   schedule: () ->
+    if(@board.check_for_win())
+      console.log("Winner found! #{@getCurrentPlayer().getSymbol()}")
+      @active = false
+      return false
     if @getCurrentPlayer() == @players[0]
       @setCurrentPlayer(@players[1])
     else
