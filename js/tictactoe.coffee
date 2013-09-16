@@ -20,6 +20,8 @@ class AIStrategy extends StrategyInterface
     console.log("  Current Player:")
     console.log(@getGame().getCurrentPlayer())
     @decision = null
+
+    console.log("    Beginning analysis for offensive moves")
     for row_num, row of @getGame().board.getGrid()
       console.log("  scanning row " + row_num)
       console.log("    Element 0 owner: ")
@@ -41,6 +43,37 @@ class AIStrategy extends StrategyInterface
           @decision = row[0]
           console.log("  Matched strat 3")
     @grid = @getGame().board.getGrid()
+    #columns
+    if (@grid[0][0].getOwner() == @grid[1][0].getOwner() == @getGame().getCurrentPlayer())
+      if (@grid[2][0].getOwner() == undefined)
+        @decision = @grid[2][0]
+    if (@grid[0][0].getOwner() == @grid[2][0].getOwner() == @getGame().getCurrentPlayer())
+      if (@grid[1][0].getOwner() == undefined)
+        @decision = @grid[1][0]
+    if (@grid[1][0].getOwner() == @grid[2][0].getOwner() == @getGame().getCurrentPlayer())
+      if (@grid[0][0].getOwner() == undefined)
+        @decision = @grid[0][0]
+
+    if (@grid[0][1].getOwner() == @grid[1][1].getOwner() == @getGame().getCurrentPlayer())
+      if (@grid[2][1].getOwner() == undefined)
+        @decision = @grid[2][1]
+    if (@grid[0][1].getOwner() == @grid[2][1].getOwner() == @getGame().getCurrentPlayer())
+      if (@grid[1][1].getOwner() == undefined)
+        @decision = @grid[1][1]
+    if (@grid[1][1].getOwner() == @grid[2][1].getOwner() == @getGame().getCurrentPlayer())
+      if (@grid[0][1].getOwner() == undefined)
+        @decision = @grid[0][1]
+
+    if (@grid[0][2].getOwner() == @grid[1][2].getOwner() == @getGame().getCurrentPlayer())
+      if (@grid[2][2].getOwner() == undefined)
+        @decision = @grid[2][2]
+    if (@grid[0][2].getOwner() == @grid[2][2].getOwner() == @getGame().getCurrentPlayer())
+      if (@grid[1][2].getOwner() == undefined)
+        @decision = @grid[1][2]
+    if (@grid[1][2].getOwner() == @grid[2][2].getOwner() == @getGame().getCurrentPlayer())
+      if (@grid[0][2].getOwner() == undefined)
+        @decision = @grid[0][2]
+    #end columns
     if (@grid[0][0].getOwner() == @grid[1][1].getOwner() == @getGame().getCurrentPlayer())
       if (@grid[2][2].getOwner() == undefined)
         @decision = @grid[2][2]
@@ -66,44 +99,86 @@ class AIStrategy extends StrategyInterface
         @decision = @grid[0][2]
         console.log("  Matched strat 9")
 
-      if (row[0].getOwner() == row[1].getOwner() == @getGame().getCurrentPlayer())
+#defensive moves
+    console.log("    Beginning analysis for defensive moves")
+    for row_num, row of @getGame().board.getGrid()
+      console.log("  scanning row " + row_num)
+      console.log("    Element 0 owner: ")
+      console.log(row[0].getOwner())
+      console.log("    Element 1 owner: ")
+      console.log(row[1].getOwner())
+      console.log("    Element 2 owner: ")
+      console.log(row[2].getOwner())
+      if (row[0].getOwner() == row[1].getOwner() == @getGame().getOpponent())
         if (row[2].getOwner() == undefined)
           @decision = row[2]
-          console.log("    Matched strat 1")
-      if (row[0].getOwner() == row[2].getOwner() == @getGame().getCurrentPlayer())
+          console.log("    Matched defensive strat 1")
+      if (row[0].getOwner() == row[2].getOwner() == @getGame().getOpponent())
         if (row[1].getOwner() == undefined)
           @decision = row[1]
-          console.log("  Matched strat 2")
-      if (row[1].getOwner() == row[2].getOwner() == @getGame().getCurrentPlayer())
+          console.log("  Matched defensive strat 2")
+      if (row[1].getOwner() == row[2].getOwner() == @getGame().getOpponent())
         if (row[0].getOwner() == undefined)
           @decision = row[0]
-          console.log("  Matched strat 3")
+          console.log("  Matched defensive strat 3")
     @grid = @getGame().board.getGrid()
-    if (@grid[0][0].getOwner() == @grid[1][1].getOwner() == @getGame().getCurrentPlayer())
+    if (@grid[0][0].getOwner() == @grid[1][1].getOwner() == @getGame().getOpponent())
       if (@grid[2][2].getOwner() == undefined)
         @decision = @grid[2][2]
-        console.log("  Matched strat 4")
-    if (@grid[0][0].getOwner() == @grid[2][2].getOwner() == @getGame().getCurrentPlayer())
+        console.log("  Matched defensive strat 4")
+    if (@grid[0][0].getOwner() == @grid[2][2].getOwner() == @getGame().getOpponent())
       if (@grid[1][1].getOwner() == undefined)
         @decision = @grid[1][1]
-        console.log("  Matched strat 5")
-    if (@grid[1][1].getOwner() == @grid[2][2].getOwner() == @getGame().getCurrentPlayer())
+        console.log("  Matched defensive strat 5")
+    if (@grid[1][1].getOwner() == @grid[2][2].getOwner() == @getGame().getOpponent())
       if (@grid[0][0].getOwner() == undefined)
         @decision = @grid[0][0]
-        console.log("  Matched strat 6")
-    if (@grid[0][2].getOwner() == @grid[1][1].getOwner() == @getGame().getCurrentPlayer())
+        console.log("  Matched defensive strat 6")
+    if (@grid[0][2].getOwner() == @grid[1][1].getOwner() == @getGame().getOpponent())
       if (@grid[2][0].getOwner() == undefined)
         @decision = @grid[2][0]
-        console.log("  Matched strat 7")
-    if (@grid[0][2].getOwner() == @grid[2][0].getOwner() == @getGame().getCurrentPlayer())
+        console.log("  Matched defensive strat 7")
+    if (@grid[0][2].getOwner() == @grid[2][0].getOwner() == @getGame().getOpponent())
       if (@grid[1][1].getOwner() == undefined)
         @decision = @grid[1][1]
-        console.log("  Matched strat 8")
-    if (@grid[1][1].getOwner() == @grid[2][0].getOwner() == @getGame().getCurrentPlayer())
+        console.log("  Matched defensive strat 8")
+    if (@grid[1][1].getOwner() == @grid[2][0].getOwner() == @getGame().getOpponent())
       if (@grid[0][2].getOwner() == undefined)
         @decision = @grid[0][2]
-        console.log("  Matched strat 9")
+        console.log("  Matched defensive strat 9")
+    if (@grid[0][0].getOwner() == @grid[1][0].getOwner() == @getGame().getOpponent())
+      if (@grid[2][2].getOwner() == undefined)
+        @decision = @grid[2][0]
+        console.log("  Matched defensive strat 10")
+    if (@grid[0][1].getOwner() == @grid[1][1].getOwner() == @getGame().getOpponent())
+      if (@grid[2][1].getOwner() == undefined)
+        @decision = @grid[2][1]
+        console.log("  Matched defensive strat 11")
+    if (@grid[0][2].getOwner() == @grid[1][2].getOwner() == @getGame().getOpponent())
+      if (@grid[2][2].getOwner() == undefined)
+        @decision = @grid[2][2]
+        console.log("  Matched defensive strat 12")
 
+    if (@grid[2][0].getOwner() == @grid[0][0].getOwner() == @getGame().getOpponent())
+      if (@grid[1][0].getOwner() == undefined)
+        @decision = @grid[1][0]
+        console.log("  Matched defensive strat 13")
+    if (@grid[2][1].getOwner() == @grid[0][1].getOwner() == @getGame().getOpponent())
+      if (@grid[1][1].getOwner() == undefined)
+        @decision = @grid[1][1]
+        console.log("  Matched defensive strat 14")
+
+    if (@grid[2][2].getOwner() == @grid[0][2].getOwner() == @getGame().getOpponent())
+      if (@grid[1][2].getOwner() == undefined)
+        @decision = @grid[1][2]
+        console.log("  Matched defensive strat 15")
+    if (@grid[2][2].getOwner() == @grid[0][2].getOwner() == @getGame().getOpponent())
+      if (@grid[1][2].getOwner() == undefined)
+        @decision = @grid[1][2]
+        console.log("  Matched defensive strat 16")
+
+
+#end defensive moves
     if not @decision #use random strategy fall back
       console.log("  no decision made, going with random fall back")
       possibilities = []
@@ -201,6 +276,11 @@ class TicTacToe
     @current_player
   setCurrentPlayer: (player) ->
     @current_player = player
+  getOpponent: () ->
+    if @getCurrentPlayer() == @players[0]
+      return @players[1]
+    else
+      return @players[0]
   schedule: () ->
     if(@board.check_for_win())
       console.log("Winner found! #{@getCurrentPlayer().getSymbol()}")
