@@ -17,31 +17,95 @@ class HumanStrategy extends StrategyInterface
 class AIStrategy extends StrategyInterface
   begin: () ->
     console.log("-----\nbeginning AIStrategy")
-    console.log("Current Player:")
+    console.log("  Current Player:")
     console.log(@getGame().getCurrentPlayer())
     @decision = null
     for row_num, row of @getGame().board.getGrid()
-      console.log("scanning row " + row_num)
-      console.log("Element 0: ")
+      console.log("  scanning row " + row_num)
+      console.log("    Element 0 owner: ")
       console.log(row[0].getOwner())
-      console.log("Element 1: ")
+      console.log("    Element 1 owner: ")
       console.log(row[1].getOwner())
-      console.log("Element 2: ")
+      console.log("    Element 2 owner: ")
       console.log(row[2].getOwner())
       if (row[0].getOwner() == row[1].getOwner() == @getGame().getCurrentPlayer())
         if (row[2].getOwner() == undefined)
           @decision = row[2]
-          console.log("Matched strat 1")
+          console.log("    Matched strat 1")
       if (row[0].getOwner() == row[2].getOwner() == @getGame().getCurrentPlayer())
         if (row[1].getOwner() == undefined)
           @decision = row[1]
-          console.log("Matched strat 2")
+          console.log("  Matched strat 2")
       if (row[1].getOwner() == row[2].getOwner() == @getGame().getCurrentPlayer())
         if (row[0].getOwner() == undefined)
           @decision = row[0]
-          console.log("Matched strat 3")
-    if not @decision
-      console.log("no decision made, going with random fall back")
+          console.log("  Matched strat 3")
+    @grid = @getGame().board.getGrid()
+    if (@grid[0][0].getOwner() == @grid[1][1].getOwner() == @getGame().getCurrentPlayer())
+      if (@grid[2][2].getOwner() == undefined)
+        @decision = @grid[2][2]
+        console.log("  Matched strat 4")
+    if (@grid[0][0].getOwner() == @grid[2][2].getOwner() == @getGame().getCurrentPlayer())
+      if (@grid[1][1].getOwner() == undefined)
+        @decision = @grid[1][1]
+        console.log("  Matched strat 5")
+    if (@grid[1][1].getOwner() == @grid[2][2].getOwner() == @getGame().getCurrentPlayer())
+      if (@grid[0][0].getOwner() == undefined)
+        @decision = @grid[0][0]
+        console.log("  Matched strat 6")
+    if (@grid[0][2].getOwner() == @grid[1][1].getOwner() == @getGame().getCurrentPlayer())
+      if (@grid[2][0].getOwner() == undefined)
+        @decision = @grid[2][0]
+        console.log("  Matched strat 7")
+    if (@grid[0][2].getOwner() == @grid[2][0].getOwner() == @getGame().getCurrentPlayer())
+      if (@grid[1][1].getOwner() == undefined)
+        @decision = @grid[1][1]
+        console.log("  Matched strat 8")
+    if (@grid[1][1].getOwner() == @grid[2][0].getOwner() == @getGame().getCurrentPlayer())
+      if (@grid[0][2].getOwner() == undefined)
+        @decision = @grid[0][2]
+        console.log("  Matched strat 9")
+
+      if (row[0].getOwner() == row[1].getOwner() == @getGame().getCurrentPlayer())
+        if (row[2].getOwner() == undefined)
+          @decision = row[2]
+          console.log("    Matched strat 1")
+      if (row[0].getOwner() == row[2].getOwner() == @getGame().getCurrentPlayer())
+        if (row[1].getOwner() == undefined)
+          @decision = row[1]
+          console.log("  Matched strat 2")
+      if (row[1].getOwner() == row[2].getOwner() == @getGame().getCurrentPlayer())
+        if (row[0].getOwner() == undefined)
+          @decision = row[0]
+          console.log("  Matched strat 3")
+    @grid = @getGame().board.getGrid()
+    if (@grid[0][0].getOwner() == @grid[1][1].getOwner() == @getGame().getCurrentPlayer())
+      if (@grid[2][2].getOwner() == undefined)
+        @decision = @grid[2][2]
+        console.log("  Matched strat 4")
+    if (@grid[0][0].getOwner() == @grid[2][2].getOwner() == @getGame().getCurrentPlayer())
+      if (@grid[1][1].getOwner() == undefined)
+        @decision = @grid[1][1]
+        console.log("  Matched strat 5")
+    if (@grid[1][1].getOwner() == @grid[2][2].getOwner() == @getGame().getCurrentPlayer())
+      if (@grid[0][0].getOwner() == undefined)
+        @decision = @grid[0][0]
+        console.log("  Matched strat 6")
+    if (@grid[0][2].getOwner() == @grid[1][1].getOwner() == @getGame().getCurrentPlayer())
+      if (@grid[2][0].getOwner() == undefined)
+        @decision = @grid[2][0]
+        console.log("  Matched strat 7")
+    if (@grid[0][2].getOwner() == @grid[2][0].getOwner() == @getGame().getCurrentPlayer())
+      if (@grid[1][1].getOwner() == undefined)
+        @decision = @grid[1][1]
+        console.log("  Matched strat 8")
+    if (@grid[1][1].getOwner() == @grid[2][0].getOwner() == @getGame().getCurrentPlayer())
+      if (@grid[0][2].getOwner() == undefined)
+        @decision = @grid[0][2]
+        console.log("  Matched strat 9")
+
+    if not @decision #use random strategy fall back
+      console.log("  no decision made, going with random fall back")
       possibilities = []
       for row in @getGame().board.getGrid()
         for el in row
