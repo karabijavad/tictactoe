@@ -179,7 +179,7 @@ class AIStrategy extends StrategyInterface
     if (@grid[0][2].getOwner() == @grid[2][0].getOwner() == @getGame().getOpponent())
       if (@grid[1][1].getOwner() == undefined)
         @decision = @grid[1][2]
-        console.log("  Matched defensive strat 16")
+        console.log("  Matched defensive strat 17")
 
 #end defensive moves
     if not @decision #use random strategy fall back
